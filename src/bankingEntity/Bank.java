@@ -12,6 +12,9 @@ public class Bank {
         // Beispielhafte Initialisierung von Daten
         creditCardData.put("1234567812345678", "123");
         paypalData.put("user@example.com", "password123");
+        paypalData.put("mueller@bestmail.com", "geheim");
+        paypalData.put("steinber.m@mailsystem.de", "ramz");
+
     }
 
     public boolean validateCreditCard(String cardNumber, String cvv) {
