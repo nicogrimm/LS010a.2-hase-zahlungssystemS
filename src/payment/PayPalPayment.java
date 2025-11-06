@@ -1,8 +1,17 @@
 package payment;
 
-import bankingEntity.*;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PayPalPayment {
+public class PayPalPayment implements PaymentMethod {
+    static public Map<String, String> validAccountData = new HashMap<>();
+
+    static {
+        validAccountData.put("user@example.com", "password123");
+        validAccountData.put("mueller@bestmail.com", "geheim");
+        validAccountData.put("steinber.m@mailsystem.de", "ramz");
+    }
+
     private String email;
     private String password;
 
@@ -16,7 +25,7 @@ public class PayPalPayment {
         System.out.println("Bezahlung von " + amount + " mit PayPal erfolgreich.");
     }
 
-    public boolean validate(Bank bank) {
-        return bank.validatePayPal(email, password);
+    public boolean validate() {
+        return validAccountData.containsKey(email) && validAccountData.get(email).equals(password);
     }
 }

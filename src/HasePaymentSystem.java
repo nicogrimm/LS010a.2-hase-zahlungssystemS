@@ -1,15 +1,13 @@
-import bankingEntity.Bank;
 import payment.CreditCardPayment;
 import payment.PayPalPayment;
+import payment.PaymentMethod;
 
 import java.util.Scanner;
 
 public class HasePaymentSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        PayPalPayment payPaalpayment = null;
-        CreditCardPayment creditCardPayment = null;
-        Bank bank = new Bank();
+        PaymentMethod paymentMethod = null;
 
         while (true) {
             System.out.println("Bitte wählen Sie eine Zahlungsmethode:");
@@ -34,19 +32,7 @@ public class HasePaymentSystem {
                     System.out.print("CVV: ");
                     String cvv = scanner.nextLine();
 
-                    creditCardPayment = new CreditCardPayment(cardNumber, cardHolderName, expiryDate, cvv);
-
-                    if (creditCardPayment != null) {
-                        System.out.print("Bitte geben Sie den Betrag ein: ");
-                        double amount = scanner.nextDouble();
-                        scanner.nextLine(); // Konsumiert das verbleibende newline-Zeichen
-
-                        if (creditCardPayment.validate(bank)) {
-                            creditCardPayment.pay(amount);
-                        } else {
-                            System.out.println("Validierung fehlgeschlagen.");
-                        }
-                    }
+                    paymentMethod = new CreditCardPayment(cardNumber, cardHolderName, expiryDate, cvv);
                     break;
 
                 case 2:
@@ -57,19 +43,7 @@ public class HasePaymentSystem {
                     System.out.print("Passwort: ");
                     String password = scanner.nextLine();
 
-                    payPaalpayment = new PayPalPayment(email, password);
-
-                    if (payPaalpayment != null) {
-                        System.out.print("Bitte geben Sie den Betrag ein: ");
-                        double amount = scanner.nextDouble();
-                        scanner.nextLine(); // Konsumiert das verbleibende newline-Zeichen
-
-                        if (payPaalpayment.validate(bank)) {
-                            payPaalpayment.pay(amount);
-                        } else {
-                            System.out.println("Validierung fehlgeschlagen.");
-                        }
-                    }
+                    paymentMethod = new PayPalPayment(email, password);
                     break;
 
                 case 0:
@@ -80,6 +54,18 @@ public class HasePaymentSystem {
                 default:
                     System.out.println("Ungültige Auswahl. Bitte versuchen Sie es erneut.");
                     continue;
+            }
+
+            if (paymentMethod != null) {
+                System.out.print("Bitte geben Sie den Betrag ein: ");
+                double amount = scanner.nextDouble();
+                scanner.nextLine(); // Konsumiert das verbleibende newline-Zeichen
+
+                if (paymentMethod.validate()) {
+                    paymentMethod.pay(amount);
+                } else {
+                    System.out.println("Validierung fehlgeschlagen.");
+                }
             }
 
         }
