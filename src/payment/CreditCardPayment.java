@@ -2,6 +2,7 @@ package payment;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class CreditCardPayment implements PaymentMethod {
     public static Map<String, String> validCardData = new HashMap<>();
@@ -17,6 +18,8 @@ public class CreditCardPayment implements PaymentMethod {
     private String expiryDate;
     private String cvv;
 
+    public CreditCardPayment() {}
+
     public CreditCardPayment(String cardNumber, String cardHolderName, String expiryDate, String cvv) {
         this.cardNumber = cardNumber;
         this.cardHolderName = cardHolderName;
@@ -24,10 +27,25 @@ public class CreditCardPayment implements PaymentMethod {
         this.cvv = cvv;
     }
 
+    @Override
+    public void einlesen(Scanner scanner) {
+        System.out.println("Kreditkartenzahlung:");
+        System.out.print("Kartennummer: ");
+        this.cardNumber = scanner.nextLine();
+        System.out.print("Karteninhaber: ");
+        this.cardHolderName = scanner.nextLine();
+        System.out.print("Ablaufdatum (MM/YY): ");
+        this.expiryDate = scanner.nextLine();
+        System.out.print("CVV: ");
+        this.cvv = scanner.nextLine();
+    }
+
+    @Override
     public void pay(double amount) {
         System.out.println("Bezahlung von " + amount + " mit Kreditkarte erfolgreich.");
     }
 
+    @Override
     public boolean validate() {
         return validCardData.containsKey(cardNumber) && validCardData.get(cardNumber).equals(cvv);
     }

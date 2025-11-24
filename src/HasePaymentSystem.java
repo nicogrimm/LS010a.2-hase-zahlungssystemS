@@ -21,29 +21,11 @@ public class HasePaymentSystem {
 
             switch (choice) {
                 case 1:
-                    // Zahlung mit Kreditkarte
-                    System.out.println("Kreditkartenzahlung:");
-                    System.out.print("Kartennummer: ");
-                    String cardNumber = scanner.nextLine();
-                    System.out.print("Karteninhaber: ");
-                    String cardHolderName = scanner.nextLine();
-                    System.out.print("Ablaufdatum (MM/YY): ");
-                    String expiryDate = scanner.nextLine();
-                    System.out.print("CVV: ");
-                    String cvv = scanner.nextLine();
-
-                    paymentMethod = new CreditCardPayment(cardNumber, cardHolderName, expiryDate, cvv);
+                    paymentMethod = new CreditCardPayment();
                     break;
 
                 case 2:
-                    // Zahlung mit PayPal
-                    System.out.println("PayPal-Zahlung:");
-                    System.out.print("E-Mail: ");
-                    String email = scanner.nextLine();
-                    System.out.print("Passwort: ");
-                    String password = scanner.nextLine();
-
-                    paymentMethod = new PayPalPayment(email, password);
+                    paymentMethod = new PayPalPayment();
                     break;
 
                 case 0:
@@ -55,6 +37,8 @@ public class HasePaymentSystem {
                     System.out.println("Ungültige Auswahl. Bitte versuchen Sie es erneut.");
                     continue;
             }
+
+            paymentMethod.einlesen(scanner);
 
             if (paymentMethod != null) {
                 System.out.print("Bitte geben Sie den Betrag ein: ");
