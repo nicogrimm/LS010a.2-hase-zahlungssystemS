@@ -40,18 +40,21 @@ public class HasePaymentSystem {
 
             paymentMethod.einlesen(scanner);
 
-            if (paymentMethod != null) {
-                System.out.print("Bitte geben Sie den Betrag ein: ");
-                double amount = scanner.nextDouble();
-                scanner.nextLine(); // Konsumiert das verbleibende newline-Zeichen
+            betragEingabe(paymentMethod, scanner);
+        }
+    }
 
-                if (paymentMethod.validate()) {
-                    paymentMethod.pay(amount);
-                } else {
-                    System.out.println("Validierung fehlgeschlagen.");
-                }
+    private static void betragEingabe(PaymentMethod paymentMethod, Scanner scanner) {
+        if (paymentMethod != null) {
+            System.out.print("Bitte geben Sie den Betrag ein: ");
+            double amount = scanner.nextDouble();
+            scanner.nextLine(); // Konsumiert das verbleibende newline-Zeichen
+
+            if (paymentMethod.validate()) {
+                paymentMethod.pay(amount);
+            } else {
+                System.out.println("Validierung fehlgeschlagen.");
             }
-
         }
     }
 }
